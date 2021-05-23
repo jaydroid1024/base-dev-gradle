@@ -1,0 +1,4 @@
+rootProject.name = "base-dev-gradle"
+include ':app'
+include ':router-plugin'
+include ':router-annotations'

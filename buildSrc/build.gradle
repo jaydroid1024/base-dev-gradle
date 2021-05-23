@@ -1,0 +1,38 @@
+//引入groovy 插件，编译插件工程中的代码
+apply plugin: 'groovy'
+
+//声明仓库地址
+repositories {
+    jcenter()
+}
+
+//声明依赖的包
+dependencies {
+    //gradle sdk
+    implementation gradleApi()
+    //groovy sdk
+    implementation localGroovy()
+}
+
+//发布插件: 1.引入maven 插件用于发布
+apply plugin: 'maven'
+
+//发布插件: 2.配置maven发布信息
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //设置发布路径，路径为工程根目录下的repo 文件夹
+            repository(url: uri('../repo')) {
+                //设置组ID，通常为包名
+                pom.groupId = 'com.jay.router'
+                //设置插件名称
+                pom.artifactId = 'router-plugin'
+                //设置版本号
+                pom.version = '1.0.0'
+            }
+        }
+    }
+}
+
+//todo 发布插件: 3.buildSrc 子工程中无法直接发布，需要将代码复制到一个新的 model 中,
+// router-plugin

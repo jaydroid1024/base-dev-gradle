@@ -1,0 +1,15 @@
+//启用java 插件
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+//设置源码兼容性
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
