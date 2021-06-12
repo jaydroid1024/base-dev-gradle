@@ -1,3 +1,5 @@
+include ':asm'
+include ':router-processor'
 rootProject.name = "base-dev-gradle"
 include ':app'
 include ':router-plugin'

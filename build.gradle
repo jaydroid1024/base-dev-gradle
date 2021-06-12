@@ -5,10 +5,8 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
         //发布插件: 4.配置发布插件的仓库地址
         maven {
             url "./repo"
@@ -18,10 +16,12 @@ buildscript {
         //二进制插件使用：2.声明插件ID和版本号
         classpath "com.android.tools.build:gradle:4.1.3"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "gradle.plugin.org.example.greeting:greeting-plugin-example:1.0"
-
         //发布插件: 5.声明插件ID和版本号
         classpath "com.jay.router:router-plugin:1.0.0"
+
+        //AppInit https://github.com/bingoogolapple/AppInit/blob/master/docs/user-manual.md
+        classpath "com.github.bingoogolapple.AppInit:buildSrc:1.0.8"
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -32,9 +32,8 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 

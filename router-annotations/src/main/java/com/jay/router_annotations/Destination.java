@@ -10,11 +10,12 @@ import java.lang.annotation.Target;
  * @version 1.0
  * @date 5/24/21
  */
-//被保留在编译阶段的字节码阶段
-@Retention(RetentionPolicy.CLASS)
 //标记在类上面
 @Target(ElementType.TYPE)
+//被保留在编译阶段的字节码阶段
+@Retention(RetentionPolicy.CLASS)
 public @interface Destination {
+
     //页面路由地址，不能为空
     String url();
 

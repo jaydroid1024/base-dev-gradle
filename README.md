@@ -243,11 +243,33 @@
 - APT实战应用
   - 路由信息采集功能的介绍与梳理
   - 路由信息采集功能的实现
+- 关于编译时注解（APT）由浅入深有三部分
+  - 自定义注解处理器
+    - 例如 ButterKnife、Room 根据注解生成新的类。
+  - 利用JcTree在编译时修改代码
+    - 像 Lombok 自动往类中新增 getter/setter 方法、往方法中插入代码行等。 这种方式不推荐使用，因为只对 Java 代码有效，对 Kotlin 代码无效。
+  - 自定义 Gradle 插件在编译时修改代码
+    - 例如一些代码插桩框架、日志框架、方法耗时统计框架等。
 
 
 
 - 定义注解
+  
+  - ```java
+    //被保留在编译阶段的字节码阶段
+    @Retention(RetentionPolicy.CLASS)
+    //标记在类上面
+    @Target(ElementType.TYPE)
+    public @interface Destination {
+        //页面路由地址，不能为空
+        String url();
+    
+        //页面描述
+        String description();
+    }
+    ```
+
+- 注解处理器
+  
   - 
-
-
 

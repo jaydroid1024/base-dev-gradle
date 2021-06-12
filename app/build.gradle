@@ -1,7 +1,16 @@
 plugins {
     //二进制插件使用：3.应用插件
     id 'com.android.application'
-    id 'kotlin-android'
+//    id 'kotlin-android'
+//    id 'kotlin-kapt'
+}
+
+//测试 appinit
+apply plugin: 'bga-appinit-plugin'
+
+appInit {
+    // AndroidManifest.xml 中配置的 Application 的类全名，配置后注入字节码自动回调 AppInitManager 对应的 Application 生命周期方法
+    applicationCanonicalName 'com.jay.base_dev_gradle.App'
 }
 
 //自定义插件：4.引用插件
@@ -11,6 +20,7 @@ apply plugin: 'com.jay.router.groovy'
 
 //实现参数配置: 3.使用Extension
 router {
+
     wikiDir getRootDir().absoluteFile.toString()
 }
 
@@ -28,7 +38,29 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments = [root_project_dir: rootProject.projectDir.absolutePath]
+//                arguments.put(AppInitAptModuleCoordinate: rootProject.projectDir.absolutePath)
+//            }
+
+            addConfigCompileOption("root_project_dir", rootProject.projectDir.absolutePath)
+            addConfigCompileOption("AppInitAptModuleCoordinate", "root_project_dir")
+//
+//            annotationProcessorOptions {
+//                if (arguments == null) {
+//                    arguments = [root_project_dir: rootProject.projectDir.absolutePath]
+//                } else {
+//                    arguments.put(AppInitAptModuleCoordinate: rootProject.projectDir.absolutePath)
+//                }
+//            }
+
+
+        }
+
     }
+
 
     buildTypes {
         release {
@@ -40,15 +72,46 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
+
+//    kapt {
+//        arguments {
+//            arg("root_project_dir", rootProject.projectDir.absolutePath)
+//        }
+//    }
+
+
+}
+
+/**
+ * 添加编译选项
+ * AppInit
+ * Caused by: java.lang.RuntimeException: java.lang.RuntimeException: 请在「build.gradle」中配置「AppInitAptModuleCoordinate」参数
+ */
+protected void addConfigCompileOption(String key, String value) {
+    project.android.defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                if (arguments == null) {
+                    arguments = [(key): value]
+                } else {
+                    arguments.put((key), value)
+                }
+            }
+        }
     }
 }
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
+    //AGP 源码跳转使用
+//    implementation 'com.android.tools.build:gradle:3.4.0'
+
+
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+//    implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -59,6 +122,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(':router-annotations')
+
+    annotationProcessor project(':router-processor')
+//    kapt project(':router-processor')
+
+
 }
 
 //脚本插件使用：2.导入其它gradle文件使用
